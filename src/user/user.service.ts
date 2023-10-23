@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { User,UserDocument  } from '../schemas/user.schema';
+import { User, UserDocument } from '../schemas/user.schema';
 @Injectable()
 export class UserService {
   // 注册Schema后，可以使用 @InjectModel() 装饰器将 User 模型注入到 UserService 中:
@@ -19,7 +20,7 @@ export class UserService {
     return temp;
   }
 
-  async findAll() : Promise<User[]> {
+  async findAll(): Promise<User[]> {
     const users = await this.userModel.find().exec();
     return users;
   }

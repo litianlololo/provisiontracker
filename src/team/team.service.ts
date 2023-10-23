@@ -15,7 +15,7 @@ export class TeamService {
   
   
   async create(createTeamDto: CreateTeamDto) {
-    const { members, ...teamData } = createTeamDto;
+    const {  ...teamData } = createTeamDto;
   
     // 检查 admin_id 对应的用户是否存在
     const adminUser = await this.userService.findById(createTeamDto.admin_id);
@@ -24,25 +24,13 @@ export class TeamService {
     }
   
     const createdTeam = new this.teamModel(teamData);
-
-    const memberUser = []; // 用于存储成员
-    for (const member of members) {
-      const userDto = {
-        name: member.name,
-        pwd: member.pwd,
-        company: createTeamDto.company,
-        // 其他成员属性
-      };
-      const tmp = await this.userService.create(userDto)
-
-      memberUser.push({
-        name:tmp.name,
-        id:tmp.id,
-        pwd: tmp.pwd
-      });
+    //检查成员是否存在
+    for (const member of teamData.members) {
+      const TeamMemberID = await this.userService.findById(member);
+      if (!TeamMemberID) {
+        throw new NotFoundException(`TeamMember with ID ${member} not found.`);
+      }
     }
-    
-    createdTeam.members = memberUser; // 将成员添加到 Team 的 members 属性
     const result = await createdTeam.save();
     return result;
   }
@@ -54,5 +42,19 @@ export class TeamService {
   update(id: number, updateTeamDto: UpdateTeamDto) {
     return `This action updates a #${id} team`;
   }
-
 }
+// for (const member of members) {
+//   const userDto = {
+//     name: member.name,
+//     pwd: member.pwd,
+//     company: createTeamDto.company,
+//     // 其他成员属性
+//   };
+//   const tmp = await this.userService.create(userDto)
+
+//   memberUser.push({
+//     name:tmp.name,
+//     id:tmp.id,
+//     pwd: tmp.pwd
+//   });
+// }
