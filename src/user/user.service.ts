@@ -24,4 +24,10 @@ export class UserService {
     const users = await this.userModel.find().exec();
     return users;
   }
+
+  async findCompanyMembers(id) {
+      const companyName = (await this.findById(id)).company;
+      const members = await this.userModel.find({ company: companyName }).select('-pwd').exec();
+      return members;
+  }
 }

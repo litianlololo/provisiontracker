@@ -30,4 +30,12 @@ export class UserController {
   findAll() {
     return this.userService.findAll();
   }
+
+
+  @Post("members")
+  findCompanyMembers(@Body() id)
+  {
+    // return id;
+    return this.userService.findCompanyMembers(id.id);
+  }
 }

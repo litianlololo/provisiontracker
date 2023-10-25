@@ -12,6 +12,8 @@ export class TeamController {
     return this.teamService.create(createTeamDto);
   }
 
+
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.teamService.findOne(+id);

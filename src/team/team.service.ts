@@ -12,8 +12,7 @@ export class TeamService {
     @InjectModel('Team') private teamModel: Model<TeamDocument>,
     private userService: UserService,
   ) {}
-  
-  
+
   async create(createTeamDto: CreateTeamDto) {
     const {  ...teamData } = createTeamDto;
   
