@@ -30,4 +30,5 @@ export class UserService {
       const members = await this.userModel.find({ company: companyName }).select('-pwd').exec();
       return members;
   }
+
 }

@@ -41,6 +41,16 @@ export class TeamService {
   update(id: number, updateTeamDto: UpdateTeamDto) {
     return `This action updates a #${id} team`;
   }
+
+  async findMyTeams(id: string) {
+    const owned = await this.teamModel.find({ admin_id: id});
+    const joined = await this.teamModel.find({ members : { $in: [id] }});
+    const teamsData = {
+      owned,
+      joined,
+    };
+    return teamsData;
+  }
 }
 // for (const member of members) {
 //   const userDto = {
