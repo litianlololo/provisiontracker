@@ -22,8 +22,10 @@ export class Team {
     admin_id: string;
     @Prop({ required: false })
     company: string;
-    @Prop([{ type: Object }]) // 使用 type: Object 定义 members 字段以接受对象数组
-    members: Array<{ name: string; id: string; pwd: string }>; // 定义 members 为包含特定字段的对象数组
+    @Prop({ required: true }) 
+    members: string[];
+    // 使用 type: Object 定义 members 字段以接受对象数组
+    //members: Array<{ name: string; id: string; pwd: string }>; // 定义 members 为包含特定字段的对象数组
 }
 
 export const TeamSchema = SchemaFactory.createForClass(Team);
