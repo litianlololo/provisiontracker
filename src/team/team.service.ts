@@ -1,15 +1,17 @@
 import { Model } from 'mongoose';
-import { Injectable,NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable,NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { CreateTeamDto } from './dto/create-team.dto';
 import { UpdateTeamDto } from './dto/update-team.dto';
 import { Team,TeamDocument  } from '../schemas/team.schema';
 import { UserService } from '../user/user.service';
+import { UserDocument } from 'src/schemas/user.schema';
 
 @Injectable()
 export class TeamService {
   constructor(
-    @InjectModel('Team') private teamModel: Model<TeamDocument>,
+    @InjectModel('Team') private teamModel: Model<TeamDocument>, 
+    @InjectModel('User') private userModel: Model<UserDocument>,
     private userService: UserService,
   ) {}
 
@@ -51,19 +53,24 @@ export class TeamService {
     };
     return teamsData;
   }
-}
-// for (const member of members) {
-//   const userDto = {
-//     name: member.name,
-//     pwd: member.pwd,
-//     company: createTeamDto.company,
-//     // 其他成员属性
-//   };
-//   const tmp = await this.userService.create(userDto)
 
-//   memberUser.push({
-//     name:tmp.name,
-//     id:tmp.id,
-//     pwd: tmp.pwd
-//   });
-// }
+  async TeamInfo(id: string) {
+    const team = await this.teamModel.findById(id);
+    let ok = false;
+    if(team === null) return {
+      ok,
+    };
+    ok=true;
+    let users = [];
+    for(let item of team.members) {
+      const user = await this.userModel.findById(item);
+      users.push(user);
+    }
+    const teamData = {
+      ok,
+      team,
+      users,
+    };
+    return teamData;
+  }
+}

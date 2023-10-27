@@ -12,7 +12,12 @@ export class TeamController {
     return this.teamService.create(createTeamDto);
   }
 
-  @Get(':id')
+  @Get('team:id')
+  TeamInfo(@Param('id') id: string) {
+    return this.teamService.TeamInfo(id);
+  }
+
+  @Get('user:id')
   findMyTeams(@Param('id') id: string) {
     return this.teamService.findMyTeams(id);
   }
