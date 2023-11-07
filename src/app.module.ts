@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserModule } from './user/user.module';
 import { TeamModule } from './team/team.module';
+import { CollectModule } from './collect/collect.module';
 @Module({
   imports: [
     MongooseModule.forRoot('mongodb://110.40.206.206:27017/provisiontracker', {
@@ -12,6 +13,7 @@ import { TeamModule } from './team/team.module';
     }),
     UserModule,
     TeamModule,
+    CollectModule,
   ],
   controllers: [AppController],
   providers: [AppService],
